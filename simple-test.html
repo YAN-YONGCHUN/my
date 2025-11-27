@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单API测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .warning { color: orange; }
+    </style>
+</head>
+<body>
+    <h1>简单API测试</h1>
+    
+    <button onclick="testConnection()">测试API连接</button>
+    <button onclick="testWithTimeout()">测试API连接(5秒超时)</button>
+    <div id="result" class="result">点击按钮开始测试</div>
+
+    <script>
+        const API_URL = 'https://api.deepseek.com/v1/chat/completions';
+        const API_KEY = 'sk-6e013afff8624501ad7cbbe1d4fe49a8';
+        const MODEL = 'deepseek-chat';
+        
+        async function testConnection() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '测试中...';
+            resultDiv.className = 'result';
+            
+            try {
+                console.log('开始测试API连接...');
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: '你好'
+                            }
+                        ],
+                        max_tokens: 50
+                    })
+                });
+                
+                console.log('收到响应:', response);
+                resultDiv.innerHTML = `状态码: ${response.status}\n状态文本: ${response.statusText}`;
+                
+                if (response.ok) {
+                    resultDiv.innerHTML += '\n\n✅ 连接成功!';
+                    resultDiv.className = 'result success';
+                    
+                    try {
+                        const data = await response.json();
+                        resultDiv.innerHTML += '\n\n响应数据:\n' + JSON.stringify(data, null, 2);
+                    } catch (jsonError) {
+                        resultDiv.innerHTML += '\n\n无法解析JSON响应: ' + jsonError.message;
+                    }
+                } else {
+                    resultDiv.innerHTML += '\n\n❌ 连接失败';
+                    resultDiv.className = 'result error';
+                    
+                    try {
+                        const errorText = await response.text();
+                        resultDiv.innerHTML += '\n\n错误详情:\n' + errorText;
+                    } catch (textError) {
+                        resultDiv.innerHTML += '\n\n无法读取错误详情: ' + textError.message;
+                    }
+                }
+            } catch (error) {
+                console.error('API调用错误:', error);
+                resultDiv.innerHTML = `错误: ${error.message}\n\n这通常表示:\n1. 网络连接问题\n2. CORS限制\n3. API服务器不可达`;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testWithTimeout() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '测试中(5秒超时)...';
+            resultDiv.className = 'result';
+            
+            try {
+                // 创建一个带超时的fetch
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: '你好'
+                            }
+                        ],
+                        max_tokens: 50
+                    }),
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                resultDiv.innerHTML = `状态码: ${response.status}\n状态文本: ${response.statusText}`;
+                
+                if (response.ok) {
+                    resultDiv.innerHTML += '\n\n✅ 连接成功!';
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML += '\n\n❌ 连接失败';
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    resultDiv.innerHTML = '❌ 请求超时(5秒)\n\n这可能表示:\n1. API服务器响应缓慢\n2. 网络连接问题\n3. 防火墙阻止请求';
+                } else {
+                    resultDiv.innerHTML = `错误: ${error.message}`;
+                }
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>

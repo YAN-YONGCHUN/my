@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API测试</title>
+</head>
+<body>
+    <h1>移动云API测试</h1>
+    <button onclick="testAPI()">测试API连接</button>
+    <div id="result"></div>
+
+    <script>
+        const API_URL = 'https://api.deepseek.com/v1/chat/completions';
+        const API_KEY = 'sk-6e013afff8624501ad7cbbe1d4fe49a8';
+        const MODEL = 'deepseek-chat';
+
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '测试中...';
+            
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + API_KEY
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: '你好'
+                            }
+                        ],
+                        max_tokens: 100
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    resultDiv.innerHTML = '<p style="color: green;">API连接成功！</p><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                } else {
+                    resultDiv.innerHTML = '<p style="color: red;">API连接失败: ' + response.status + ' ' + response.statusText + '</p>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<p style="color: red;">API连接错误: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>

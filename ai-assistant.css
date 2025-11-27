@@ -1,0 +1,255 @@
+/* AI助手样式 */
+.ai-assistant {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.ai-assistant-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: grab;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: absolute;
+    /* 初始位置 */
+    right: 20px;
+    bottom: 20px;
+}
+
+.ai-assistant-btn:active {
+    cursor: grabbing;
+}
+
+.ai-assistant-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.ai-chat-window {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.ai-chat-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-settings-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.ai-chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f8f9fa;
+}
+
+.ai-message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 80%;
+    word-wrap: break-word;
+    line-height: 1.4;
+}
+
+.ai-message.user {
+    background: #007bff;
+    color: white;
+    margin-left: auto;
+    text-align: right;
+}
+
+.ai-message.bot {
+    background: white;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    margin-right: auto;
+}
+
+.ai-chat-input {
+    display: flex;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+}
+
+.ai-chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+}
+
+.ai-chat-input input:focus {
+    border-color: #007bff;
+}
+
+.ai-send-btn {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.ai-send-btn:hover {
+    background: #0056b3;
+}
+
+/* 设置面板样式 */
+.ai-settings-panel {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 400px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: none;
+    z-index: 1001;
+}
+
+.ai-settings-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ai-settings-header h3 {
+    margin: 0;
+}
+
+.ai-close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.ai-settings-content {
+    padding: 20px;
+}
+
+.setting-item {
+    margin-bottom: 20px;
+}
+
+.setting-item label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.setting-item input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.setting-item input:focus {
+    border-color: #007bff;
+}
+
+.setting-item small {
+    color: #666;
+    font-size: 12px;
+}
+
+.ai-save-btn, .ai-test-btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.ai-save-btn {
+    background: #28a745;
+    color: white;
+}
+
+.ai-save-btn:hover {
+    background: #218838;
+}
+
+.ai-test-btn {
+    background: #ffc107;
+    color: #333;
+}
+
+.ai-test-btn:hover {
+    background: #e0a800;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .ai-chat-window {
+        width: 300px;
+        height: 400px;
+    }
+    
+    .ai-settings-panel {
+        width: 350px;
+    }
+    
+    .ai-assistant {
+        bottom: 10px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ai-chat-window {
+        width: 280px;
+        height: 350px;
+        bottom: 70px;
+        right: 10px;
+    }
+    
+    .ai-settings-panel {
+        width: 300px;
+        bottom: 70px;
+        right: 10px;
+    }
+}

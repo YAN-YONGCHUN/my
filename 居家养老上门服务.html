@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>福田坊·社区全智能养老资源导航平台</title>
+
+    <script src="./mode-switch.js"></script>
+    <link rel="stylesheet" href="./ai-assistant.css">
+    <script src="./ai-assistant.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .top{
+            width: 100%;
+            height: 150px;
+            background-image: url(./img/背景图片.png);
+        }
+        #title{
+            height: 150px;
+            padding-top: 51px;
+            font-size: 40px;
+        }
+        img{
+            margin-top: 24px;
+            margin-left: 400px;
+            width: 142px;
+            height: 105px;
+            float: left;
+        }
+        ul{
+            width: 100%;
+            height: 50px;
+            list-style: none;
+            background-color: blue;
+            padding-left: 276px;
+        }
+        ul li{
+            display: inline-block;
+            padding: 0 50px;
+        }
+        li a{
+            font-size: 20px;
+            color:white;
+            font-family: "宋体";
+            line-height: 50px;
+            text-decoration: none;
+        }
+        li:hover{
+            background-color: rgba(6, 122, 238, 0.63);
+        }
+        .renyuan{
+            width: 300px;
+            min-height: 320px;
+            padding:15px;
+            margin: 50px;
+            background-color:rgba(240, 245, 250, 1);
+            display: inline-block;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .renyuan:hover{
+            border: 2px solid red;
+        }
+        .tupian{
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin: 0;
+        }
+        .renyuan a{
+            display: block;
+            font-size: 25px;
+            text-decoration: none;
+            font-family: "楷体";
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .renyuan a:hover{
+            color: #e74c3c;
+        }
+        .renyuan p{
+            font-family: "宋体";
+            font-size: 15px;
+            color: #555;
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+        .wuxing{
+            margin: 0;
+            width: 87px;
+            height: 17px;
+        }
+        .xing{
+            float: inline-start;
+        }
+        /* 页脚样式 */
+        .footer-container {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            z-index: 999;
+            margin: 0 0 10px 20px;
+        }
+        .footer-p {
+            text-align: left;
+            font-size: 18px;
+            font-family:"宋体";
+            margin: 5px 0;
+            padding: 8px 12px;
+            background-color: rgba(240, 245, 250, 1);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .footer-p a {
+            text-decoration: none;
+            font-family: "宋体";
+            color: #2c3e50;
+        }
+        .footer-p a:hover {
+            color: #e74c3c;
+        }
+        /* 模式切换按钮样式 */
+        .mode-switch-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 20px;
+            background: #f0ad4e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .mode-switch-btn:hover {
+            background: #ec971f;
+            transform: scale(1.05);
+        }
+        
+        /* 响应式设计 - 针对手机等小屏幕设备 */
+        @media (max-width: 768px) {
+            /* 顶部布局 */
+            .top {
+                height: auto;
+                padding: 20px 0;
+                text-align: center;
+            }
+            
+            img {
+                margin: 0 auto 20px;
+                float: none;
+                display: block;
+            }
+            
+            #title {
+                height: auto;
+                padding-top: 0;
+                font-size: 28px;
+                text-align: center;
+            }
+            
+            /* 导航栏 */
+            ul {
+                padding-left: 0;
+                height: auto;
+                text-align: center;
+            }
+            
+            ul li {
+                display: block;
+                padding: 10px 20px;
+            }
+            
+            /* 服务人员卡片 */
+            .renyuan {
+                width: calc(100% - 40px);
+                margin: 20px;
+                padding: 15px;
+            }
+            
+            /* 页脚 */
+            .footer-container {
+                position: static;
+                margin: 20px;
+                text-align: center;
+            }
+            
+            .footer-p {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+        
+        /* 响应式设计 - 针对平板设备 */
+        @media (max-width: 1024px) {
+            /* 顶部布局 */
+            img {
+                margin-left: 20px;
+            }
+            
+            /* 导航栏 */
+            ul {
+                padding-left: 20px;
+            }
+            
+            ul li {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <img src="./img/logo1.png" alt="">
+        <h1 id="title">福田坊·社区全智能养老资源导航平台</h1>
+    </div>
+    
+    <!-- 模式切换按钮 -->
+    <button class="mode-switch-btn" onclick="toggleMode()">切换到老年人模式</button>
+    <ul>
+        <li><a href="./index.html">养老机构对比分析</a></li>
+        <li><a href="./居家养老上门服务.html">居家养老上门服务</a></li>
+        <li><a href="./养老知识百科全书.html">养老知识百科全书</a></li>
+        <li><a href="./智能设备助力康养生活.html">智能设备助力康养生活</a></li>
+    </ul>
+    <div class="renyuan">
+        <img src="./img/小明.jpeg" alt="" class="tupian">
+        <a href="./小明.html">小明</a>
+        <p>35岁</p>
+        <p>家政护理</p>
+        <p class="xing">星级认定：</p>
+        <img src="./img/五星1.png" alt="" class="wuxing">
+        <br>
+        <p>XXX家政公司</p>
+    </div>
+    <div class="renyuan">
+        <img src="./img/小丽.jpeg" alt="" class="tupian">
+        <a href="./小丽.html">小丽</a>
+        <p>35岁</p>
+        <p>温情陪伴</p>
+        <p class="xing">星级认定：</p>
+        <img src="./img/五星1.png" alt="" class="wuxing">
+        <br>
+        <p>平台自主合作护理师</p>
+    </div>
+    <!-- AI助手 -->
+    <div class="ai-assistant">
+        <button class="ai-assistant-btn" onclick="aiAssistant.toggleChat()">🤖</button>
+        <div class="ai-chat-window" id="aiChatWindow">
+            <div class="ai-chat-header">
+                AI养老助手
+                <button class="ai-settings-btn" onclick="aiAssistant.showSettings()">⚙️</button>
+            </div>
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <div class="ai-message bot">
+                    您好！我是AI养老助手，我可以帮您：<br>
+                    • 查询养老机构信息<br>
+                    • 解答养老政策问题<br>
+                    • 提供健康养生建议<br>
+                    • 协助使用本平台功能<br>
+                    请问有什么可以帮您的吗？
+                </div>
+            </div>
+            <div class="ai-chat-input">
+                <input type="text" id="aiChatInput" placeholder="请输入您的问题..." onkeypress="aiAssistant.handleInput(event)">
+                <button class="ai-send-btn" onclick="aiAssistant.sendMessage()">发送</button>
+            </div>
+        </div>
+        
+        <!-- 设置面板 -->
+        <div class="ai-settings-panel" id="aiSettingsPanel">
+            <div class="ai-settings-header">
+                <h3>AI助手设置</h3>
+                <button class="ai-close-btn" onclick="aiAssistant.hideSettings()">×</button>
+            </div>
+            <div class="ai-settings-content">
+                <div class="setting-item">
+                    <label for="apiKeyInput">DeepSeek API Key:</label>
+                    <input type="password" id="apiKeyInput" placeholder="请输入您的API Key">
+                    <small>从移动云DeepSeek获取您的API密钥</small>
+                </div>
+                <div class="setting-item">
+                    <label for="apiUrlInput">API地址:</label>
+                    <input type="text" id="apiUrlInput" value="https://api.deepseek.com/v1/chat/completions">
+                </div>
+                <div class="setting-item">
+                    <button class="ai-save-btn" onclick="aiAssistant.saveSettings()">保存设置</button>
+                    <button class="ai-test-btn" onclick="aiAssistant.testConnection()">测试连接</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚内容 -->
+    <div class="footer-container">
+        <p class="footer-p"><a href="">联系我们</a></p>
+        <p class="footer-p">友情链接：<a href="https://yanglao.mca.gov.cn/">全国养老服务信息平台</a></p>
+        <p class="footer-p">&copy;2025福田坊项目集团</p>
+    </div>
+
+    <script>
+        // 页面加载时初始化模式
+        window.onload = function() {
+            initMode();
+        };
+    </script>
+</body>
+</html>

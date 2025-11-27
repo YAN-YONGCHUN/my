@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>福田坊·社区全智能养老资源导航平台</title>
+
+    <script src="./mode-switch.js"></script>
+    <link rel="stylesheet" href="./ai-assistant.css">
+    <script src="./ai-assistant.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .top{
+            width: 100%;
+            height: 150px;
+            background-image: url(./img/背景图片.png);
+        }
+        #title{
+            height: 150px;
+            padding-top: 51px;
+            font-size: 40px;
+        }
+        img{
+            margin-top: 24px;
+            margin-left: 400px;
+            width: 142px;
+            height: 105px;
+            float: left;
+        }
+        ul{
+            width: 100%;
+            height: 50px;
+            list-style: none;
+            background-color: blue;
+            padding-left: 276px;
+        }
+        ul li{
+            display: inline-block;
+            padding: 0 50px;
+        }
+        li a{
+            font-size: 20px;
+            color:white;
+            font-family: "宋体";
+            line-height: 50px;
+            text-decoration: none;
+        }
+        li:hover{
+            background-color: rgba(6, 122, 238, 0.63);
+        }
+        /* 百科内容容器 */
+        .baike-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        
+        /* 百科条目 - 一行展示 */
+        .baike-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: rgba(240, 245, 250, 1);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .baike-item:hover {
+            border: 2px solid #e74c3c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* 条目图标 */
+        .item-icon {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        /* 书籍类型图标 */
+        .book-icon {
+            background-color: #3498db;
+            color: white;
+            border-radius: 4px;
+        }
+        
+        /* 视频类型图标 */
+        .video-icon {
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 4px;
+        }
+        
+        /* 条目内容 */
+        .item-content {
+            flex: 1;
+        }
+        
+        /* 条目标题 */
+        .item-title {
+            text-decoration: none;
+            color: #2c3e50;
+            font-family: "宋体";
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .item-title:hover {
+            color: #e74c3c;
+        }
+        
+        /* 条目描述 */
+        .item-desc {
+            font-family: "宋体";
+            color: #555;
+            font-size: 14px;
+        }
+        
+        /* 条目标签 */
+        .item-tags {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        
+        .tag {
+            background-color: #95a5a6;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .book-tag {
+            background-color: #3498db;
+        }
+        
+        .video-tag {
+            background-color: #e74c3c;
+        }
+        /* 页脚样式 */
+        .footer-container {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            z-index: 999;
+            margin: 0 0 10px 20px;
+        }
+        .footer-p {
+            text-align: left;
+            font-size: 18px;
+            font-family:"宋体";
+            margin: 5px 0;
+            padding: 8px 12px;
+            background-color: rgba(240, 245, 250, 1);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .footer-p a {
+            text-decoration: none;
+            font-family: "宋体";
+            color: #2c3e50;
+        }
+        .footer-p a:hover {
+            color: #e74c3c;
+        }
+        /* 模式切换按钮样式 */
+        .mode-switch-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 20px;
+            background: #f0ad4e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .mode-switch-btn:hover {
+            background: #ec971f;
+            transform: scale(1.05);
+        }
+        
+        /* 响应式设计 - 针对手机等小屏幕设备 */
+        @media (max-width: 768px) {
+            /* 顶部布局 */
+            .top {
+                height: auto;
+                padding: 20px 0;
+                text-align: center;
+            }
+            
+            img {
+                margin: 0 auto 20px;
+                float: none;
+                display: block;
+            }
+            
+            #title {
+                height: auto;
+                padding-top: 0;
+                font-size: 28px;
+                text-align: center;
+            }
+            
+            /* 导航栏 */
+            ul {
+                padding-left: 0;
+                height: auto;
+                text-align: center;
+            }
+            
+            ul li {
+                display: block;
+                padding: 10px 20px;
+            }
+            
+            /* 百科内容容器 */
+            .baike-container {
+                padding: 0 10px;
+            }
+            
+            /* 百科条目 */
+            .baike-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            /* 条目图标 */
+            .item-icon {
+                margin-bottom: 10px;
+            }
+            
+            /* 条目标题 */
+            .item-title {
+                font-size: 18px;
+            }
+            
+            /* 条目标签 */
+            .item-tags {
+                flex-wrap: wrap;
+            }
+            
+            /* 页脚 */
+            .footer-container {
+                position: static;
+                margin: 20px;
+                text-align: center;
+            }
+            
+            .footer-p {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+        
+        /* 响应式设计 - 针对平板设备 */
+        @media (max-width: 1024px) {
+            /* 顶部布局 */
+            img {
+                margin-left: 20px;
+            }
+            
+            /* 导航栏 */
+            ul {
+                padding-left: 20px;
+            }
+            
+            ul li {
+                padding: 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <img src="./img/logo1.png" alt="">
+        <h1 id="title">福田坊·社区全智能养老资源导航平台</h1>
+    </div>
+    
+    <!-- 模式切换按钮 -->
+    <button class="mode-switch-btn" onclick="toggleMode()">切换到老年人模式</button>
+    <ul>
+        <li><a href="./index.html">养老机构对比分析</a></li>
+        <li><a href="./居家养老上门服务.html">居家养老上门服务</a></li>
+        <li><a href="./养老知识百科全书.html">养老知识百科全书</a></li>
+        <li><a href="./智能设备助力康养生活.html">智能设备助力康养生活</a></li>
+    </ul>
+    <div class="baike-container">
+        <!-- 书籍类型条目 -->
+        <div class="baike-item">
+            <div class="item-icon book-icon">📚</div>
+            <div class="item-content">
+                <a href="" class="item-title">实用生活护理小常识</a>
+                <p class="item-desc">让退休生活更精彩、更健康、更完美</p>
+                <div class="item-tags">
+                    <span class="tag book-tag">书籍</span>
+                    <span class="tag">生活护理</span>
+                    <span class="tag">健康养生</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 视频类型条目 -->
+        <div class="baike-item">
+            <div class="item-icon video-icon">🎬</div>
+            <div class="item-content">
+                <a href="" class="item-title">老年人健康饮食指南</a>
+                <p class="item-desc">科学饮食，健康长寿</p>
+                <div class="item-tags">
+                    <span class="tag video-tag">视频</span>
+                    <span class="tag">饮食健康</span>
+                    <span class="tag">营养搭配</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 书籍类型条目 -->
+        <div class="baike-item">
+            <div class="item-icon book-icon">📚</div>
+            <div class="item-content">
+                <a href="" class="item-title">老年人心理健康手册</a>
+                <p class="item-desc">保持积极心态，享受晚年生活</p>
+                <div class="item-tags">
+                    <span class="tag book-tag">书籍</span>
+                    <span class="tag">心理健康</span>
+                    <span class="tag">心理调适</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 视频类型条目 -->
+        <div class="baike-item">
+            <div class="item-icon video-icon">🎬</div>
+            <div class="item-content">
+                <a href="" class="item-title">老年人运动健身教程</a>
+                <p class="item-desc">适合老年人的安全运动方式</p>
+                <div class="item-tags">
+                    <span class="tag video-tag">视频</span>
+                    <span class="tag">运动健身</span>
+                    <span class="tag">安全锻炼</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 书籍类型条目 -->
+        <div class="baike-item">
+            <div class="item-icon book-icon">📚</div>
+            <div class="item-content">
+                <a href="" class="item-title">常见疾病预防与护理</a>
+                <p class="item-desc">老年人常见疾病的预防和护理知识</p>
+                <div class="item-tags">
+                    <span class="tag book-tag">书籍</span>
+                    <span class="tag">疾病预防</span>
+                    <span class="tag">护理知识</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 视频类型条目 -->
+        <div class="baike-item">
+            <div class="item-icon video-icon">🎬</div>
+            <div class="item-content">
+                <a href="" class="item-title">智能设备使用教程</a>
+                <p class="item-desc">教老年人轻松使用智能设备</p>
+                <div class="item-tags">
+                    <span class="tag video-tag">视频</span>
+                    <span class="tag">智能设备</span>
+                    <span class="tag">科技养老</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- AI助手 -->
+    <div class="ai-assistant">
+        <button class="ai-assistant-btn" onclick="aiAssistant.toggleChat()">🤖</button>
+        <div class="ai-chat-window" id="aiChatWindow">
+            <div class="ai-chat-header">
+                AI养老助手
+                <button class="ai-settings-btn" onclick="aiAssistant.showSettings()">⚙️</button>
+            </div>
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <div class="ai-message bot">
+                    您好！我是AI养老助手，我可以帮您：<br>
+                    • 查询养老机构信息<br>
+                    • 解答养老政策问题<br>
+                    • 提供健康养生建议<br>
+                    • 协助使用本平台功能<br>
+                    请问有什么可以帮您的吗？
+                </div>
+            </div>
+            <div class="ai-chat-input">
+                <input type="text" id="aiChatInput" placeholder="请输入您的问题..." onkeypress="aiAssistant.handleInput(event)">
+                <button class="ai-send-btn" onclick="aiAssistant.sendMessage()">发送</button>
+            </div>
+        </div>
+        
+        <!-- 设置面板 -->
+        <div class="ai-settings-panel" id="aiSettingsPanel">
+            <div class="ai-settings-header">
+                <h3>AI助手设置</h3>
+                <button class="ai-close-btn" onclick="aiAssistant.hideSettings()">×</button>
+            </div>
+            <div class="ai-settings-content">
+                <div class="setting-item">
+                    <label for="apiKeyInput">DeepSeek API Key:</label>
+                    <input type="password" id="apiKeyInput" placeholder="请输入您的API Key">
+                    <small>从移动云DeepSeek获取您的API密钥</small>
+                </div>
+                <div class="setting-item">
+                    <label for="apiUrlInput">API地址:</label>
+                    <input type="text" id="apiUrlInput" value="https://api.deepseek.com/v1/chat/completions">
+                </div>
+                <div class="setting-item">
+                    <button class="ai-save-btn" onclick="aiAssistant.saveSettings()">保存设置</button>
+                    <button class="ai-test-btn" onclick="aiAssistant.testConnection()">测试连接</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚内容 -->
+    <div class="footer-container">
+        <p class="footer-p"><a href="">联系我们</a></p>
+        <p class="footer-p">友情链接：<a href="https://yanglao.mca.gov.cn/">全国养老服务信息平台</a></p>
+        <p class="footer-p">&copy;2025福田坊项目集团</p>
+    </div>
+
+    <script>
+        // 页面加载时初始化模式
+        window.onload = function() {
+            initMode();
+        };
+    </script>
+</body>
+</html>

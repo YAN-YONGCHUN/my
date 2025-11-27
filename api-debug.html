@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API调试测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            background-color: #f9f9f9;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>移动云API调试测试</h1>
+    
+    <div class="test-section">
+        <h2>1. 基本连接测试</h2>
+        <button onclick="testBasicConnection()">测试基本连接</button>
+        <div id="basic-result" class="result">点击按钮开始测试</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. 详细连接测试</h2>
+        <button onclick="testDetailedConnection()">测试详细连接</button>
+        <div id="detailed-result" class="result">点击按钮开始测试</div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. CORS测试</h2>
+        <button onclick="testCORS()">测试CORS</button>
+        <div id="cors-result" class="result">点击按钮开始测试</div>
+    </div>
+
+    <script>
+        const API_URL = 'https://api.deepseek.com/v1/chat/completions';
+        const API_KEY = 'sk-6e013afff8624501ad7cbbe1d4fe49a8';
+        const MODEL = 'deepseek-chat';
+        
+        async function testBasicConnection() {
+            const resultDiv = document.getElementById('basic-result');
+            resultDiv.innerHTML = '测试中...';
+            resultDiv.className = 'result';
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+                
+                const response = await fetch(API_URL, {
+                    method: 'OPTIONS',
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                resultDiv.innerHTML = `OPTIONS请求状态: ${response.status} ${response.statusText}\n`;
+                resultDiv.innerHTML += `允许的方法: ${response.headers.get('Allow') || 'N/A'}\n`;
+                resultDiv.innerHTML += `CORS头部: ${response.headers.get('Access-Control-Allow-Origin') || 'N/A'}`;
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                clearTimeout(timeoutId);
+                resultDiv.innerHTML = `错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testDetailedConnection() {
+            const resultDiv = document.getElementById('detailed-result');
+            resultDiv.innerHTML = '测试中...';
+            resultDiv.className = 'result';
+            
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 15000); // 15秒超时
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: MODEL,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: '你好'
+                            }
+                        ],
+                        max_tokens: 50,
+                        temperature: 0.7
+                    }),
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                resultDiv.innerHTML = `POST请求状态: ${response.status} ${response.statusText}\n`;
+                resultDiv.innerHTML += `内容类型: ${response.headers.get('Content-Type') || 'N/A'}\n`;
+                
+                // 尝试读取响应体
+                try {
+                    const text = await response.text();
+                    resultDiv.innerHTML += `\n响应体:\n${text.substring(0, 500)}${text.length > 500 ? '...' : ''}`;
+                } catch (readError) {
+                    resultDiv.innerHTML += `\n无法读取响应体: ${readError.message}`;
+                }
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                clearTimeout(timeoutId);
+                resultDiv.innerHTML = `错误: ${error.message}`;
+                if (error.name === 'AbortError') {
+                    resultDiv.innerHTML = '请求超时';
+                }
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        async function testCORS() {
+            const resultDiv = document.getElementById('cors-result');
+            resultDiv.innerHTML = '测试中...';
+            resultDiv.className = 'result';
+            
+            try {
+                // 检查是否支持preflight请求
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000);
+                
+                const response = await fetch(API_URL, {
+                    method: 'OPTIONS',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                resultDiv.innerHTML = `CORS Preflight测试:\n`;
+                resultDiv.innerHTML += `状态: ${response.status} ${response.statusText}\n`;
+                resultDiv.innerHTML += `Access-Control-Allow-Origin: ${response.headers.get('Access-Control-Allow-Origin') || '未设置'}\n`;
+                resultDiv.innerHTML += `Access-Control-Allow-Methods: ${response.headers.get('Access-Control-Allow-Methods') || '未设置'}\n`;
+                resultDiv.innerHTML += `Access-Control-Allow-Headers: ${response.headers.get('Access-Control-Allow-Headers') || '未设置'}\n`;
+                
+                // 检查是否允许我们的域名
+                const allowedOrigin = response.headers.get('Access-Control-Allow-Origin');
+                if (allowedOrigin === '*' || allowedOrigin === window.location.origin) {
+                    resultDiv.innerHTML += `\n✅ CORS配置正确`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML += `\n❌ CORS配置可能有问题`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                clearTimeout(timeoutId);
+                resultDiv.innerHTML = `CORS测试错误: ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>

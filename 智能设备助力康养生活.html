@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>福田坊·社区全智能养老资源导航平台</title>
+
+    <script src="./mode-switch.js"></script>
+    <link rel="stylesheet" href="./ai-assistant.css">
+    <script src="./ai-assistant.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .top{
+            width: 100%;
+            height: 150px;
+            background-image: url(img/背景图片.png);
+        }
+        #title{
+            height: 150px;
+            padding-top: 51px;
+            font-size: 40px;
+        }
+        img{
+            margin-top: 24px;
+            margin-left: 400px;
+            width: 142px;
+            height: 105px;
+            float: left;
+        }
+        ul{
+            width: 100%;
+            height: 50px;
+            list-style: none;
+            background-color: blue;
+            padding-left: 276px;
+        }
+        ul li{
+            display: inline-block;
+            padding: 0 50px;
+        }
+        li a{
+            font-size: 20px;
+            color:white;
+            font-family: "宋体";
+            line-height: 50px;
+            text-decoration: none;
+        }
+        li:hover{
+            background-color: rgba(6, 122, 238, 0.63);
+        }
+        /* 页面标题 */
+        .page-title {
+            font-family: "楷体";
+            font-size: 36px;
+            text-align: center;
+            margin: 30px 0;
+            color: #2c3e50;
+            padding: 0 20px;
+        }
+        
+        /* 智能设备容器 */
+        .device-container {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+        
+        /* 设备分类标题 */
+        .category-title {
+            font-size: 28px;
+            color: #3498db;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        /* 设备卡片容器 */
+        .device-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 45px;
+            margin: 30px 0;
+        }
+        
+        /* 设备卡片 */
+        .device-card {
+            background-color: white;
+            border: 2px solid #f5f5f5;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            padding: 25px;
+        }
+        
+        .device-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+            border-color: #3498db;
+        }
+        
+        /* 设备图片 */
+        .device-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        /* 设备内容 */
+        .device-content {
+            padding: 0;
+        }
+        
+        /* 设备名称 */
+        .device-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        /* 设备描述 */
+        .device-desc {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            padding: 10px 0;
+        }
+        
+        /* 设备特点 */
+        .device-features {
+            list-style: none;
+            margin-bottom: 0;
+            padding-left: 0;
+            background-color: #fafafa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .device-features li {
+            color: #666;
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.5;
+        }
+        
+        .device-features li:before {
+            content: "✓";
+            color: #27ae60;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 16px;
+            top: 2px;
+        }
+        
+        /* 加盟合作区域 */
+        .cooperation-section {
+            background-color: rgba(52, 152, 219, 0.1);
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 1200px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .cooperation-title {
+            font-size: 24px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+        
+        .cooperation-desc {
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        /* 合作按钮 */
+        .cooperation-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+        
+        .cooperation-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+        }
+        /* 页脚样式 */
+        .footer-container {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            z-index: 999;
+            margin: 0 0 10px 20px;
+        }
+        .footer-p {
+            text-align: left;
+            font-size: 18px;
+            font-family:"宋体";
+            margin: 5px 0;
+            padding: 8px 12px;
+            background-color: rgba(240, 245, 250, 1);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        .footer-p a {
+            text-decoration: none;
+            font-family: "宋体";
+            color: #2c3e50;
+        }
+        .footer-p a:hover {
+            color: #e74c3c;
+        }
+        /* 模式切换按钮样式 */
+        .mode-switch-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 10px 20px;
+            background: #f0ad4e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .mode-switch-btn:hover {
+            background: #ec971f;
+            transform: scale(1.05);
+        }
+        
+        /* 响应式设计 - 针对手机等小屏幕设备 */
+        @media (max-width: 768px) {
+            /* 顶部布局 */
+            .top {
+                height: auto;
+                padding: 20px 0;
+                text-align: center;
+            }
+            
+            img {
+                margin: 0 auto 20px;
+                float: none;
+                display: block;
+            }
+            
+            #title {
+                height: auto;
+                padding-top: 0;
+                font-size: 28px;
+                text-align: center;
+            }
+            
+            /* 导航栏 */
+            ul {
+                padding-left: 0;
+                height: auto;
+                text-align: center;
+            }
+            
+            ul li {
+                display: block;
+                padding: 10px 20px;
+            }
+            
+            /* 智能设备图片 */
+            #tu {
+                width: 100%;
+                margin: 20px auto;
+                display: block;
+            }
+            
+            /* 标题 */
+            #ti {
+                font-size: 24px;
+                padding: 0 20px;
+            }
+            
+            /* 页脚 */
+            .footer-container {
+                position: static;
+                margin: 20px;
+                text-align: center;
+            }
+            
+            .footer-p {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+        
+        /* 响应式设计 - 针对平板设备 */
+        @media (max-width: 1024px) {
+            /* 顶部布局 */
+            img {
+                margin-left: 20px;
+            }
+            
+            /* 导航栏 */
+            ul {
+                padding-left: 20px;
+            }
+            
+            ul li {
+                padding: 0 20px;
+            }
+            
+            /* 智能设备图片 */
+            #tu {
+                margin-left: 20px;
+                width: calc(100% - 40px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <img src="img/logo1.png" alt="">
+        <h3 id="title">福田坊·社区全智能养老资源导航平台</h3>
+    </div>
+    
+    <!-- 模式切换按钮 -->
+    <button class="mode-switch-btn" onclick="toggleMode()">切换到老年人模式</button>
+    <ul>
+        <li><a href="./index.html">养老机构对比分析</a></li>
+        <li><a href="./居家养老上门服务.html">居家养老上门服务</a></li>
+        <li><a href="./养老知识百科全书.html">养老知识百科全书</a></li>
+        <li><a href="./智能设备助力康养生活.html">智能设备助力康养生活</a></li>
+    </ul>
+    <h1 class="page-title">智能设备助力康养生活</h1>
+    
+    <!-- 设备展示区域 -->
+    <div class="device-container">
+        <!-- 健康监测设备 -->
+        <h2 class="category-title">健康监测设备</h2>
+        <div class="device-grid">
+            <div class="device-card">
+                <img src="img/智能养老设备.webp" alt="智能健康监测设备" class="device-image">
+                <div class="device-content">
+                    <h3 class="device-name">智能健康监测手表</h3>
+                    <p class="device-desc">实时监测心率、血压、血氧等健康数据，异常情况自动报警，让家人更放心。</p>
+                    <ul class="device-features">
+                        <li>24小时心率监测</li>
+                        <li>血压血氧检测</li>
+                        <li>跌倒自动报警</li>
+                        <li>睡眠质量分析</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="device-card">
+                <img src="img/智能养老设备.webp" alt="智能体重秤" class="device-image">
+                <div class="device-content">
+                    <h3 class="device-name">智能体重秤</h3>
+                    <p class="device-desc">精准测量体重、体脂、肌肉量等多项身体指标，生成健康报告，科学管理健康。</p>
+                    <ul class="device-features">
+                        <li>18项身体指标检测</li>
+                        <li>健康数据分析</li>
+                        <li>历史数据对比</li>
+                        <li>家人共享数据</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="device-card">
+                <img src="img/智能养老设备.webp" alt="智能血糖仪" class="device-image">
+                <div class="device-content">
+                    <h3 class="device-name">智能血糖仪</h3>
+                    <p class="device-desc">无痛采血，快速检测血糖值，数据自动上传云端，方便医生远程监控。</p>
+                    <ul class="device-features">
+                        <li>无痛采血技术</li>
+                        <li>5秒快速出结果</li>
+                        <li>数据云端存储</li>
+                        <li>异常血糖提醒</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 生活辅助设备 -->
+        <h2 class="category-title">生活辅助设备</h2>
+        <div class="device-grid">
+            <div class="device-card">
+                <img src="img/智能养老设备.webp" alt="智能轮椅" class="device-image">
+                <div class="device-content">
+                    <h3 class="device-name">智能电动轮椅</h3>
+                    <p class="device-desc">智能操控，自动避障，可远程控制，让行动不便的老人出行更安全、更便捷。</p>
+                    <ul class="device-features">
+                        <li>智能避障系统</li>
+                        <li>远程操控功能</li>
+                        <li>长时间续航</li>
+                        <li>舒适座椅设计</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="device-card">
+                <img src="img/智能养老设备.webp" alt="智能护理床" class="device-image">
+                <div class="device-content">
+                    <h3 class="device-name">智能护理床</h3>
+                    <p class="device-desc">可调节多种体位，配备按摩功能，智能监测睡眠质量，提升老人睡眠舒适度。</p>
+                    <ul class="device-features">
+                        <li>多角度体位调节</li>
+                        <li>智能按摩功能</li>
+                        <li>睡眠质量监测</li>
+                        <li>防压疮设计</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="device-card">
+                <img src="img/智能养老设备.webp" alt="智能语音助手" class="device-image">
+                <div class="device-content">
+                    <h3 class="device-name">智能语音助手</h3>
+                    <p class="device-desc">语音控制家电，播放音乐，查询天气，设置提醒，让老人轻松享受智能生活。</p>
+                    <ul class="device-features">
+                        <li>智能语音识别</li>
+                        <li>家电控制功能</li>
+                        <li>日程提醒设置</li>
+                        <li>在线音乐播放</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 安全防护设备 -->
+        <h2 class="category-title">安全防护设备</h2>
+        <div class="device-grid">
+            <div class="device-card">
+                <img src="img/智能养老设备.webp" alt="智能烟雾报警器" class="device-image">
+                <div class="device-content">
+                    <h3 class="device-name">智能烟雾报警器</h3>
+                    <p class="device-desc">实时监测烟雾浓度，发现异常立即报警，同时推送通知给家人，保障居家安全。</p>
+                    <ul class="device-features">
+                        <li>高灵敏烟雾检测</li>
+                        <li>声光报警功能</li>
+                        <li>手机远程通知</li>
+                        <li>低电量提醒</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="device-card">
+                <img src="img/智能养老设备.webp" alt="智能门窗传感器" class="device-image">
+                <div class="device-content">
+                    <h3 class="device-name">智能门窗传感器</h3>
+                    <p class="device-desc">监测门窗开关状态，异常开启自动报警，防止意外发生，守护居家安全。</p>
+                    <ul class="device-features">
+                        <li>门窗状态监测</li>
+                        <li>异常开启报警</li>
+                        <li>手机实时通知</li>
+                        <li>低功耗设计</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="device-card">
+                <img src="img/智能养老设备.webp" alt="智能紧急呼叫器" class="device-image">
+                <div class="device-content">
+                    <h3 class="device-name">智能紧急呼叫器</h3>
+                    <p class="device-desc">一键紧急呼叫，同时通知多个联系人，让老人在紧急情况下得到及时救助。</p>
+                    <ul class="device-features">
+                        <li>一键紧急呼叫</li>
+                        <li>多联系人通知</li>
+                        <li>GPS定位功能</li>
+                        <li>防水防尘设计</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 加盟合作区域 -->
+    <div class="cooperation-section">
+        <h2 class="cooperation-title">欢迎广大智能设备厂家加盟合作</h2>
+        <p class="cooperation-desc">我们诚邀各类智能养老设备厂家加入我们的平台，共同为老年人提供更优质的智能康养产品和服务。</p>
+        <button class="cooperation-btn">立即加盟合作</button>
+    </div>
+    <!-- AI助手 -->
+    <div class="ai-assistant">
+        <button class="ai-assistant-btn" onclick="aiAssistant.toggleChat()">🤖</button>
+        <div class="ai-chat-window" id="aiChatWindow">
+            <div class="ai-chat-header">
+                AI养老助手
+                <button class="ai-settings-btn" onclick="aiAssistant.showSettings()">⚙️</button>
+            </div>
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <div class="ai-message bot">
+                    您好！我是AI养老助手，我可以帮您：<br>
+                    • 查询养老机构信息<br>
+                    • 解答养老政策问题<br>
+                    • 提供健康养生建议<br>
+                    • 协助使用本平台功能<br>
+                    请问有什么可以帮您的吗？
+                </div>
+            </div>
+            <div class="ai-chat-input">
+                <input type="text" id="aiChatInput" placeholder="请输入您的问题..." onkeypress="aiAssistant.handleInput(event)">
+                <button class="ai-send-btn" onclick="aiAssistant.sendMessage()">发送</button>
+            </div>
+        </div>
+        
+        <!-- 设置面板 -->
+        <div class="ai-settings-panel" id="aiSettingsPanel">
+            <div class="ai-settings-header">
+                <h3>AI助手设置</h3>
+                <button class="ai-close-btn" onclick="aiAssistant.hideSettings()">×</button>
+            </div>
+            <div class="ai-settings-content">
+                <div class="setting-item">
+                    <label for="apiKeyInput">DeepSeek API Key:</label>
+                    <input type="password" id="apiKeyInput" placeholder="请输入您的API Key">
+                    <small>从移动云DeepSeek获取您的API密钥</small>
+                </div>
+                <div class="setting-item">
+                    <label for="apiUrlInput">API地址:</label>
+                    <input type="text" id="apiUrlInput" value="https://api.deepseek.com/v1/chat/completions">
+                </div>
+                <div class="setting-item">
+                    <button class="ai-save-btn" onclick="aiAssistant.saveSettings()">保存设置</button>
+                    <button class="ai-test-btn" onclick="aiAssistant.testConnection()">测试连接</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚内容 -->
+    <div class="footer-container">
+        <p class="footer-p"><a href="">联系我们</a></p>
+        <p class="footer-p">友情链接：<a href="https://yanglao.mca.gov.cn/">全国养老服务信息平台</a></p>
+        <p class="footer-p">&copy;2025福田坊项目集团</p>
+    </div>
+
+    <script>
+        // 页面加载时初始化模式
+        window.onload = function() {
+            initMode();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI助手调试页面</title>
+    <link rel="stylesheet" href="ai-assistant.css">
+</head>
+<body>
+    <h1>AI助手调试页面</h1>
+    <p>打开浏览器开发者工具的控制台查看详细日志</p>
+    
+    <div id="debug-info"></div>
+    
+    <script src="ai-assistant.js"></script>
+    <script>
+        // 等待AI助手初始化完成
+        setTimeout(() => {
+            console.log('AI助手初始化完成，开始测试...');
+            
+            // 模拟用户发送消息
+            const testMessage = "你好，请介绍一下养老机构";
+            console.log('测试消息:', testMessage);
+            
+            // 直接调用AI助手的方法进行测试
+            aiAssistant.sendMessage = async function() {
+                const input = document.getElementById('aiChatInput');
+                const message = testMessage;
+                
+                if (message) {
+                    this.addMessage(message, 'user');
+                    
+                    console.log('准备发送消息到API:', message);
+                    await this.callDeepSeekAPI(message);
+                }
+            };
+            
+            // 执行测试
+            aiAssistant.sendMessage();
+            
+        }, 1000);
+    </script>
+</body>
+</html>
